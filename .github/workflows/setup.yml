@@ -1,12 +1,12 @@
-name: Flutter Flutter Extended Minna Demo
+name: Flutter Extended Minna Demo
 
-# This workflow is triggered on pushes to the repository.
 on:
   push: 
-    branches: [ main ] # This will trigger the workflow on every push to the main branch
+    branches: [ main ] 
+#     - main
   pull_request:
-    branches: [ main ] # Add this trigger to run this workflow on PR's to the main branch
-#   workflow_dispatch: # to manually run this workflow
+    branches: [ main ]
+#     - main
 
 env:
   FLUTTER_CHANNEL: 'stable' # 'stable', 'beta', or 'master', default to: 'stable'
@@ -14,7 +14,6 @@ env:
   XCODE_VERSION: '14.2'
   PATH_TO_AAB: 'build/app/outputs/bundle/release/app-release.aab'
   ANDROID_PACKAGE_NAME: 'com.wordlearnffeminna2023'
-#   PATH_TO_IPA: 'build/ios/ipa/flutter-forward-extended-minna-2023.ipa'
 
 jobs:
   code-analysis-and-testing:
@@ -67,10 +66,10 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         channel: ${{ env.FLUTTER_CHANNEL }}
-        flutter-version: ${{ env.FLUTTER_VERSION }} # you can also specify exact version of flutter
+        flutter-version: ${{ env.FLUTTER_VERSION }}
     
     - name: Flutter doctor
-      run: flutter doctor # this is an optional step and can be removed
+      run: flutter doctor
     
     - name: Build AAB
       run: |
@@ -85,8 +84,8 @@ jobs:
         name: release-aab
         path: ${{ env.PATH_TO_AAB }}
 
-#     - name: Upload to Play Store
-#       run: |
+    - name: Upload to Play Store
+      run: |
         fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}' --package_name '${{ env.ANDROID_PACKAGE_NAME }}' --track 'internal'
 
   web:
@@ -102,10 +101,10 @@ jobs:
       uses: subosito/flutter-action@v2
       with:
         channel: ${{ env.FLUTTER_CHANNEL }}
-        flutter-version: ${{ env.FLUTTER_VERSION }} # you can also specify exact version of flutter
+        flutter-version: ${{ env.FLUTTER_VERSION }}
     
     - name: Flutter doctor
-      run: flutter doctor # this is an optional step and can be removed
+      run: flutter doctor
     
     - name: Build web
       run: flutter build web --release

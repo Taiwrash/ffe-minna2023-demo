@@ -94,13 +94,12 @@ jobs:
 #     - name: Upload to Play Store
 #       run: |
 #         # fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}' --package_name '${{ env.ANDROID_PACKAGE_NAME }}' --track 'internal'
-      - run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
+      run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
         env:
           ANDROID_SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
         working-directory: android
         
   web:
-    if: false
     name: Web CI/CD
     needs: code-analysis-and-testing
     runs-on: ubuntu-latest

@@ -84,10 +84,13 @@ jobs:
         name: release-aab
         path: ${{ env.PATH_TO_AAB }}
 
+#     - name: Upload to Play Store
+#       run: |
+#         # fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}' --package_name '${{ env.ANDROID_PACKAGE_NAME }}' --track 'internal'
+#         fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }} --package_name ${{ env.ANDROID_PACKAGE_NAME }} --track beta --rollout 0.5
     - name: Upload to Play Store
       run: |
-        # fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}' --package_name '${{ env.ANDROID_PACKAGE_NAME }}' --track 'internal'
-        echo "Successfully uploaded!"
+        fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }} --package_name ${{ env.ANDROID_PACKAGE_NAME }} --track beta --rollout 0.5
 
 #     - name: Upload to Play Store
 #       run: |

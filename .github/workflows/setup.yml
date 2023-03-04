@@ -48,7 +48,14 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-    
+  
+    - name: Setup Fastlane
+    uses: ruby/setup-ruby@8df78e55761745aad83acaf3ff12976382356e6d
+      with:
+        ruby-version: "2.6"
+        bundler-cache: true
+        working-directory: android
+
     - name: Prepare key.jks & key.properties files
       env:
         KEYSTORE_FILE_BASE64: ${{ secrets.FFEJKS }}
@@ -84,11 +91,16 @@ jobs:
         name: release-aab
         path: ${{ env.PATH_TO_AAB }}
 
-    - name: Upload to Play Store
-      run: |
-        # fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}' --package_name '${{ env.ANDROID_PACKAGE_NAME }}' --track 'internal'
+#     - name: Upload to Play Store
+#       run: |
+#         # fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}' --package_name '${{ env.ANDROID_PACKAGE_NAME }}' --track 'internal'
+      - run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
+        env:
+          ANDROID_SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
+        working-directory: android
         
   web:
+    if: false
     name: Web CI/CD
     needs: code-analysis-and-testing
     runs-on: ubuntu-latest

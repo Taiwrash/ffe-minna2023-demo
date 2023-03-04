@@ -11,7 +11,7 @@ on:
 env:
   FLUTTER_CHANNEL: 'stable' # 'stable', 'beta', or 'master', default to: 'stable'
   FLUTTER_VERSION: '3.3.10'
-  XCODE_VERSION: '14.2'
+#   XCODE_VERSION: '14.2'
   PATH_TO_AAB: 'build/app/outputs/bundle/release/app-release.aab'
   ANDROID_PACKAGE_NAME: 'com.wordlearnffeminna2023'
 
@@ -94,10 +94,11 @@ jobs:
 #     - name: Upload to Play Store
 #       run: |
 #         # fastlane supply --aab ${{ env.PATH_TO_AAB }} --json_key_data '${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}' --package_name '${{ env.ANDROID_PACKAGE_NAME }}' --track 'internal'
-      run: bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
-        env:
-          ANDROID_SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
-        working-directory: android
+      - run: |
+          bundle exec fastlane ${{ github.event.inputs.lane || 'beta' }}
+          env:
+            ANDROID_SERVICE_ACCOUNT_JSON: ${{ secrets.ANDROID_SERVICE_ACCOUNT_JSON }}
+          working-directory: android
         
   web:
     name: Web CI/CD
